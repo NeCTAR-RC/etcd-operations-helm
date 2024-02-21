@@ -1,0 +1,29 @@
+# Default values for etcd-defrag.
+
+schedule: "15 9 * * *"
+timezone: "Australia/Melbourne"
+
+startingDeadlineSeconds: 3600
+activeDeadlineSeconds: 600
+backoffLimit: 0
+
+healthCheckAttempts: 10
+
+image:
+  pullPolicy: IfNotPresent
+  repository: bitnami/etcd
+  tag: 3.5.9
+
+imagePullSecrets: []
+
+backup:
+  enable: false
+  keepDays: 7
+  # Either: A manually managed Persistent Volume and Claim
+  existingClaim:
+  # Or: A dynamically managed Persistent Volume and Claim
+  storageClass:
+  annotations: {}
+  labels: {}
+  accessMode: "ReadWriteOnce"
+  size: "5Gi"
