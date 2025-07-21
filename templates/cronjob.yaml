@@ -46,6 +46,11 @@ spec:
                   ETCDCTL='etcdctl --cacert /etc/kubernetes/pki/etcd/ca.crt --cert /etc/kubernetes/pki/etcd/server.crt --key /etc/kubernetes/pki/etcd/server.key'
                   # discover the list of etcd members in a form we can use
                   ENDPOINTS=$($ETCDCTL --endpoints=${NODE_IP}:2379 member list | awk -F ',' '{gsub(/[[:blank:]]/,"",$5);printf("%s ", $5)}' | xargs | sed 's/ /,/g')
+                  if [ -z "$ENDPOINTS" ]
+                    then
+                    echo "FAILED! unable to gather list of endpoints from ${NODE_IP}:2379"
+                    exit 1
+                  fi
                   $ETCDCTL --endpoints=${ENDPOINTS} -w table endpoint status
                   # if any are unhealthy cowardly bail out
                   if ($ETCDCTL --endpoints=${ENDPOINTS} endpoint health 2>&1 | grep -v 'is healthy:')
