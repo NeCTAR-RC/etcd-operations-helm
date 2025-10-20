@@ -11,7 +11,7 @@ healthCheckAttempts: 10
 
 image:
   pullPolicy: IfNotPresent
-  repository: bitnami/etcd
+  repository: bitnamilegacy/etcd
   tag: 3.5.21
 
 imagePullSecrets: []
